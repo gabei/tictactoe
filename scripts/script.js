@@ -4,6 +4,10 @@
   const Board = (function () {
     let spaces = [];
 
+    function getSpaces() {
+      return spaces;
+    }
+
     function updateBoard(space) {
       spaces.push(space);
     }
@@ -12,7 +16,7 @@
       spaces = [];
     }
 
-    return { updateBoard, clearBoard };
+    return { updateBoard, clearBoard, getSpaces };
   })();
 
   const Control = (function () {
@@ -49,7 +53,7 @@
     }
 
     function playGame() {
-      currentPlayer = PlayerX;
+      currentPlayer = playerX;
       while (!isGameOver) {
         playTurn();
       }
@@ -58,18 +62,26 @@
     }
 
     function playTurn() {
-      let choice = null;
-      while (!isValid(choice)) {
-        choice = prompt(`Player ${currentPlayer}: Choose a spot.`);
-      }
-      currentPlayer.addSpace(choice);
-      Board.addSpace(choice);
+      getPlayerChoice();
       checkForWin();
       nextPlayer();
+      console.log(Board.getSpaces());
+    }
+
+    function getPlayerChoice() {
+      let choice = null;
+      while (!isValid(choice)) {
+        choice = prompt(`Player ${currentPlayer.name}: Choose a spot.`);
+      }
+      currentPlayer.addSpace(choice);
+      Board.updateBoard(choice);
     }
 
     function isValid(choice) {
-      return choice && !Board.spaces.includes(choice);
+      let exists = choice;
+      let isInRange = choice >= 1 && choice <= 9;
+      let isAvailable = !Board.getSpaces().includes(choice);
+      return exists && isInRange && isAvailable;
     }
 
     function nextPlayer() {
@@ -83,7 +95,7 @@
       //check if a winning combination has been acheived by the current player
       winningCombos.forEach(function (combo) {
         for (let num of combo) {
-          win = currentPlayer.spaces.includes(num);
+          win = currentPlayer.getSpaces().includes(num);
         }
       });
       return win;
@@ -99,10 +111,17 @@
   function Player(name, playerSign) {
     let spaces = [];
     let sign = playerSign;
+
     function addSpace(space) {
       spaces.push(space);
     }
 
-    return { name, sign, addSpace };
+    function getSpaces() {
+      return spaces;
+    }
+
+    return { name, sign, addSpace, getSpaces };
   }
+
+  Control.setupGame();
 })();
