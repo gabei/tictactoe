@@ -16,26 +16,54 @@
   })();
 
   (function Control() {
-    let isGameOver;
+    let isGameOver = false;
     let currentPlayer;
+    let playerX;
+    let playerO;
 
     function getPlayerName(playerSign) {
-      let name = alert(`What is ${playerSign}'s name?`);
+      let name = prompt(`What is ${playerSign}'s name?`);
       return name;
     }
 
     function addPlayers() {
-      let playerX = getPlayerName("x");
-      let playerO = getPlayerName("o");
+      playerX = Player(getPlayerName("x"), "x");
+      playerO = Player(getPlayerName("o"), "o");
     }
 
-    function setupGame() {}
+    function setupGame() {
+      Board.clearBoard;
+      addPlayers();
+    }
 
-    function playGame() {}
+    function playGame() {
+      currentPlayer = PlayerX;
+      while (!isGameOver) {
+        playTurn();
+      }
+
+      endGame();
+    }
+
+    function playTurn() {
+      let choice = prompt(`Player ${currentPlayer}: Choose a spot.`);
+      currentPlayer.addSpace(choice);
+      Board.addSpace(choice);
+      Control.checkForWin();
+      nextPlayer();
+    }
 
     function nextPlayer() {
-      currentPlayer.sign = "x" ? (currentPlayer = "o") : (currentPlayer = "x");
+      currentPlayer = playerX
+        ? (currentPlayer = playerO)
+        : (currentPlayer = playerX);
     }
+
+    function checkForWin() {
+      //check if a winning combination has been acheived by the current player
+    }
+
+    function endGame() {}
   })();
 
   function Player(name, playerSign) {
