@@ -45,6 +45,7 @@
     function setupGame() {
       Board.clearBoard;
       addPlayers();
+      playGame();
     }
 
     function playGame() {
@@ -57,11 +58,18 @@
     }
 
     function playTurn() {
-      let choice = prompt(`Player ${currentPlayer}: Choose a spot.`);
+      let choice = null;
+      while (!isValid(choice)) {
+        choice = prompt(`Player ${currentPlayer}: Choose a spot.`);
+      }
       currentPlayer.addSpace(choice);
       Board.addSpace(choice);
-      Control.checkForWin();
+      checkForWin();
       nextPlayer();
+    }
+
+    function isValid(choice) {
+      return choice && !Board.spaces.includes(choice);
     }
 
     function nextPlayer() {
@@ -71,10 +79,21 @@
     }
 
     function checkForWin() {
+      let winningCombo = false;
       //check if a winning combination has been acheived by the current player
+      winningCombos.forEach(function (combo) {
+        for (let num of combo) {
+          win = currentPlayer.spaces.includes(num);
+        }
+      });
+      return winningCombo;
     }
 
-    function endGame() {}
+    function endGame() {
+      console.log(`Game over! ${currentPlayer} wins!`);
+    }
+
+    return { setupGame };
   })();
 
   function Player(name, playerSign) {
