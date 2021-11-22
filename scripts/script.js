@@ -1,7 +1,7 @@
 (() => {
   console.log("Hello.");
 
-  (function Board() {
+  function Board() {
     let spaces = [];
 
     function updateBoard(space) {
@@ -13,9 +13,9 @@
     }
 
     return { updateBoard, clearBoard };
-  })();
+  }
 
-  (function Control() {
+  function Control() {
     let isGameOver = false;
     let currentPlayer;
     let playerX;
@@ -79,22 +79,22 @@
     }
 
     function checkForWin() {
-      let winningCombo = false;
+      let win = false;
       //check if a winning combination has been acheived by the current player
       winningCombos.forEach(function (combo) {
         for (let num of combo) {
           win = currentPlayer.spaces.includes(num);
         }
       });
-      return winningCombo;
+      return win;
     }
 
     function endGame() {
       console.log(`Game over! ${currentPlayer} wins!`);
     }
 
-    return { setupGame };
-  })();
+    setupGame();
+  }
 
   function Player(name, playerSign) {
     let spaces = [];
