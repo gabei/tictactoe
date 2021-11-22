@@ -71,7 +71,7 @@
     function getPlayerChoice() {
       let choice = null;
       while (!isValid(choice)) {
-        choice = prompt(`Player ${currentPlayer.name}: Choose a spot.`);
+        choice = prompt(`Player ${currentPlayer.getName()}: Choose a spot.`);
       }
       currentPlayer.addSpace(choice);
       Board.updateBoard(choice);
@@ -112,6 +112,14 @@
     let spaces = [];
     let sign = playerSign;
 
+    function getName() {
+      return name;
+    }
+
+    function getSign() {
+      return sign;
+    }
+
     function addSpace(space) {
       spaces.push(space);
     }
@@ -120,7 +128,7 @@
       return spaces;
     }
 
-    return { name, sign, addSpace, getSpaces };
+    return { getName, getSign, addSpace, getSpaces };
   }
 
   Control.setupGame();
