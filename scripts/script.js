@@ -1,7 +1,7 @@
 (() => {
   console.log("Hello.");
 
-  function Board() {
+  const Board = (function () {
     let spaces = [];
 
     function updateBoard(space) {
@@ -13,9 +13,9 @@
     }
 
     return { updateBoard, clearBoard };
-  }
+  })();
 
-  function Control() {
+  const Control = (function () {
     let isGameOver = false;
     let currentPlayer;
     let playerX;
@@ -93,8 +93,8 @@
       console.log(`Game over! ${currentPlayer} wins!`);
     }
 
-    setupGame();
-  }
+    return { setupGame };
+  })();
 
   function Player(name, playerSign) {
     let spaces = [];
