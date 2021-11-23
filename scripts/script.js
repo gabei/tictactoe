@@ -131,8 +131,6 @@
     return { getName, getSign, addSpace, getSpaces };
   }
 
-  Control.setupGame();
-
   const UI = (function () {
     const textUpdate = document.querySelector(".text-update");
 
@@ -142,4 +140,6 @@
 
     return { updateText };
   })();
+
+  //Control.setupGame();
 })();

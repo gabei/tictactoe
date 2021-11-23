@@ -1,0 +1,22 @@
+.game-board {
+  margin: 0 auto;
+  width: 200px;
+  height: 200px;
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: repeat(3, 33%);
+  grid-template-rows: repeat(3, 33%);
+}
+
+.square {
+  background-color: royalblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square:hover {
+  cursor: pointer;
+  background-color: goldenrod;
+  transition: 0.2s all;
+}
