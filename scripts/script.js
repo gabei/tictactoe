@@ -132,4 +132,14 @@
   }
 
   Control.setupGame();
+
+  const UI = (function () {
+    const textUpdate = document.querySelector(".text-update");
+
+    function updateText(text) {
+      textUpdate.textContent = text;
+    }
+
+    return { updateText };
+  })();
 })();
