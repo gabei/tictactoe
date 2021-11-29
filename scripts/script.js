@@ -54,11 +54,6 @@
 
     function playGame() {
       currentPlayer = playerX;
-      while (isGameOver === false) {
-        playTurn();
-      }
-
-      endGame();
     }
 
     async function getPlayerChoice() {
@@ -90,6 +85,8 @@
       if (currentPlayer === playerO) {
         currentPlayer = playerX;
       }
+
+      console.log(currentPlayer.getName());
     }
 
     function isWinningMove() {
@@ -110,8 +107,6 @@
 
     function playTurn(e) {
       let choice = e.target.getAttribute("value");
-      console.log(choice);
-      console.log(isValid(choice));
 
       if (isValid(choice)) {
         Board.updateBoard(choice);
@@ -120,8 +115,9 @@
           endGame();
         }
         nextPlayer();
+        UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
       } else {
-        console.log("bad move");
+        UI.updateText("Invalid move. Please choose another space.");
       }
     }
 
@@ -152,7 +148,7 @@
   }
 
   const UI = (function () {
-    const textUpdate = document.querySelector(".text-update");
+    const textUpdate = document.querySelector(".text-updates");
     const gameBoard = document.querySelector(".game-board");
 
     gameBoard.addEventListener("click", Control.playTurn);
