@@ -37,7 +37,7 @@
     ];
 
     function getPlayerName(playerSign) {
-      let name = prompt(`What is ${playerSign}'s name?`);
+      let name = prompt(`What is player ${playerSign}'s name?'`); //testing like this <-----------
       return name;
     }
 
@@ -54,24 +54,20 @@
 
     function playGame() {
       currentPlayer = playerX;
-      while (!isGameOver) {
+      while (isGameOver === false) {
         playTurn();
       }
 
       endGame();
     }
 
-    function playTurn() {
-      getPlayerChoice();
-      checkForWin();
-      nextPlayer();
-      console.log(Board.getSpaces());
-    }
-
-    function getPlayerChoice() {
+    async function getPlayerChoice() {
+      console.log("getPlayerChoice()");
       let choice = null;
       while (!isValid(choice)) {
-        choice = prompt(`Player ${currentPlayer.getName()}: Choose a spot.`);
+        // UI.updateText(`${currentPlayer}: Choose a number!`);
+        // choice = await playerInput();
+        choice = prompt(`${currentPlayer.getName()}: select a number 1-9`);
       }
       currentPlayer.addSpace(choice);
       Board.updateBoard(choice);
@@ -85,12 +81,19 @@
     }
 
     function nextPlayer() {
-      currentPlayer = playerX
-        ? (currentPlayer = playerO)
-        : (currentPlayer = playerX);
+      console.log("nextPlayer()");
+
+      if (currentPlayer === playerX) {
+        currentPlayer = playerO;
+      }
+
+      if (currentPlayer === playerO) {
+        currentPlayer = playerX;
+      }
     }
 
-    function checkForWin() {
+    function isWinningMove() {
+      console.log("isWinningMove()");
       let win = false;
       //check if a winning combination has been acheived by the current player
       winningCombos.forEach(function (combo) {
@@ -102,10 +105,27 @@
     }
 
     function endGame() {
-      console.log(`Game over! ${currentPlayer} wins!`);
+      console.log(`Game over! ${currentPlayer.getName()} wins!`);
     }
 
-    return { setupGame };
+    function playTurn(e) {
+      let choice = e.target.getAttribute("value");
+      console.log(choice);
+      console.log(isValid(choice));
+
+      if (isValid(choice)) {
+        Board.updateBoard(choice);
+        currentPlayer.addSpace(choice);
+        if (isWinningMove()) {
+          endGame();
+        }
+        nextPlayer();
+      } else {
+        console.log("bad move");
+      }
+    }
+
+    return { setupGame, playTurn };
   })();
 
   function Player(name, playerSign) {
@@ -133,6 +153,9 @@
 
   const UI = (function () {
     const textUpdate = document.querySelector(".text-update");
+    const gameBoard = document.querySelector(".game-board");
+
+    gameBoard.addEventListener("click", Control.playTurn);
 
     function updateText(text) {
       textUpdate.textContent = text;
@@ -141,5 +164,5 @@
     return { updateText };
   })();
 
-  //Control.setupGame();
+  Control.setupGame();
 })();
