@@ -49,23 +49,12 @@
     function setupGame() {
       Board.clearBoard;
       addPlayers();
-      playGame();
+      startGame();
     }
 
-    function playGame() {
+    function startGame() {
       currentPlayer = playerX;
-    }
-
-    async function getPlayerChoice() {
-      console.log("getPlayerChoice()");
-      let choice = null;
-      while (!isValid(choice)) {
-        // UI.updateText(`${currentPlayer}: Choose a number!`);
-        // choice = await playerInput();
-        choice = prompt(`${currentPlayer.getName()}: select a number 1-9`);
-      }
-      currentPlayer.addSpace(choice);
-      Board.updateBoard(choice);
+      UI.changeTurnText(currentPlayer.getName());
     }
 
     function isValid(choice) {
@@ -76,17 +65,11 @@
     }
 
     function nextPlayer() {
-      console.log("nextPlayer()");
+      currentPlayer == playerX
+        ? (currentPlayer = playerO)
+        : (currentPlayer = playerX);
 
-      if (currentPlayer === playerX) {
-        currentPlayer = playerO;
-      }
-
-      if (currentPlayer === playerO) {
-        currentPlayer = playerX;
-      }
-
-      console.log(currentPlayer.getName());
+      UI.changeTurnText(currentPlayer.getName());
     }
 
     function isWinningMove() {
@@ -114,8 +97,8 @@
         if (isWinningMove()) {
           endGame();
         }
-        nextPlayer();
         UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
+        nextPlayer();
       } else {
         UI.updateText("Invalid move. Please choose another space.");
       }
@@ -149,6 +132,7 @@
 
   const UI = (function () {
     const textUpdate = document.querySelector(".text-updates");
+    const turnText = document.querySelector(".turn-text");
     const gameBoard = document.querySelector(".game-board");
 
     gameBoard.addEventListener("click", Control.playTurn);
@@ -157,7 +141,11 @@
       textUpdate.textContent = text;
     }
 
-    return { updateText };
+    function changeTurnText(playerName) {
+      turnText.textContent = `${playerName}'s Turn`;
+    }
+
+    return { updateText, changeTurnText };
   })();
 
   Control.setupGame();
