@@ -20,3 +20,22 @@
   background-color: goldenrod;
   transition: 0.2s all;
 }
+
+.disable-game-board {
+  pointer-events: none;
+}
+
+.game-over {
+  display: none;
+  background-color: gray;
+  color: whitesmoke;
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.show-board {
+  display: block;
+}

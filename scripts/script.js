@@ -58,10 +58,8 @@
     }
 
     function isValid(choice) {
-      let exists = choice;
-      let isInRange = choice >= 1 && choice <= 9;
       let isAvailable = !Board.getSpaces().includes(choice);
-      return exists && isInRange && isAvailable;
+      return isAvailable;
     }
 
     function nextPlayer() {
@@ -86,6 +84,7 @@
 
     function endGame() {
       console.log(`Game over! ${currentPlayer.getName()} wins!`);
+      UI.disableButtons();
     }
 
     function playTurn(e) {
@@ -104,7 +103,7 @@
       }
     }
 
-    return { setupGame, playTurn };
+    return { setupGame, playTurn, endGame };
   })();
 
   function Player(name, playerSign) {
@@ -134,6 +133,8 @@
     const textUpdate = document.querySelector(".text-updates");
     const turnText = document.querySelector(".turn-text");
     const gameBoard = document.querySelector(".game-board");
+    const gameOver = document.querySelector(".game-over");
+    const winningPlayer = document.querySelector(".winning-player");
 
     gameBoard.addEventListener("click", Control.playTurn);
 
@@ -145,7 +146,15 @@
       turnText.textContent = `${playerName}'s Turn`;
     }
 
-    return { updateText, changeTurnText };
+    function disableButtons() {
+      gameBoard.classList.add("disable-game-board");
+    }
+
+    function revealGameOver() {
+      gameOver.classList.add("show-board");
+    }
+
+    return { updateText, changeTurnText, disableButtons };
   })();
 
   Control.setupGame();
