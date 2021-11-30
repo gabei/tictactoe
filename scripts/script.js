@@ -58,6 +58,7 @@
 
     function isValid(choice) {
       let isAvailable = !Board.getSpaces().includes(choice);
+      console.log(isAvailable);
       return isAvailable;
     }
 
@@ -102,26 +103,19 @@
 
     function playTurn(e) {
       let choice = parseInt(e.target.getAttribute("value"));
-      UI.changeSpaceText(e.target, currentPlayer.getSign());
 
       if (isValid(choice)) {
-        updateSpacesAndUI(choice);
+        Board.updateBoard(choice);
+        currentPlayer.addSpace(choice);
+        UI.changeSpaceText(e.target, currentPlayer.getSign());
         if (isWinningMove()) endGame();
         UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
         nextPlayer();
         TURNCOUNT++;
-
         if (TURNCOUNT >= MAXTURNS) endGame(true);
-      }
-
-      if (!isValid(choice))
+      } else {
         UI.updateText("Invalid move. Please choose another space.");
-    }
-
-    function updateSpacesAndUI(choice) {
-      Board.updateBoard(choice);
-      currentPlayer.addSpace(choice);
-      UI.changeSpaceText(currentPlayer.getSign());
+      }
     }
 
     return { setupGame, playTurn, endGame };
