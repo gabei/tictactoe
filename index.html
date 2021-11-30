@@ -8,25 +8,38 @@
   <title>Document</title>
 </head>
 <body>
-  <section class="ui-container">
-    <p class="turn-text">Turn</p>
-    <p class="text-updates"></p>
-    <div class="game-over"><h2 class="winning-player"></h2></div>
+
+  <section class="game-setup">
+    <form class="game-setup__form">
+      <label for="x-name">Player One Name</label>
+      <input type="text" name="x-name">
+      <label for="x-name">Player One Name</label>
+      <input type="text" name="y-name">
+      <input type="submit" value="Start Game!">
+    </form>
   </section>
 
+  <section class="main display-none">
+    <div class="ui-container">
+      <p class="turn-text">Turn</p>
+      <p class="text-updates"></p>
+      <div class="game-over"><h2 class="winning-player"></h2></div>
+    </div>
   
-  
-  <div class="game-board">
-    <div class="square" value="1">1</div>
-    <div class="square" value="2">2</div>
-    <div class="square" value="3">3</div>
-    <div class="square" value="4">4</div>
-    <div class="square" value="5">5</div>
-    <div class="square" value="6">6</div>
-    <div class="square" value="7">7</div>
-    <div class="square" value="8">8</div>
-    <div class="square" value="9">9</div>
-  </div>
+    <div class="game-board">
+      <div class="square" value="1">1</div>
+      <div class="square" value="2">2</div>
+      <div class="square" value="3">3</div>
+      <div class="square" value="4">4</div>
+      <div class="square" value="5">5</div>
+      <div class="square" value="6">6</div>
+      <div class="square" value="7">7</div>
+      <div class="square" value="8">8</div>
+      <div class="square" value="9">9</div>
+    </div>
+  </section>
+
+ 
   
 
   <script src="scripts/script.js"></script>

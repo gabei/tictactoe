@@ -40,14 +40,19 @@
       return name;
     }
 
-    function addPlayers() {
-      playerX = Player(getPlayerName("x"), "x");
-      playerO = Player(getPlayerName("o"), "o");
+    function addPlayers(xname, yname) {
+      playerX = Player(xname, "x");
+      playerO = Player(yname, "o");
     }
 
-    function setupGame() {
-      Board.clearBoard;
-      addPlayers();
+    function setupGame(e) {
+      e.preventDefault();
+      let xname = this.elements["x-name"].value;
+      let yname = this.elements["y-name"].value;
+      addPlayers(xname, yname);
+
+      Board.clearBoard();
+      UI.initGameDisplay();
       startGame();
     }
 
@@ -150,7 +155,11 @@
     const gameBoard = document.querySelector(".game-board");
     const gameOver = document.querySelector(".game-over");
     const winningPlayer = document.querySelector(".winning-player");
+    const mainContainer = document.querySelector(".main");
+    const gameSetup = document.querySelector(".game-setup");
+    const setupForm = document.querySelector(".game-setup__form");
     gameBoard.addEventListener("click", Control.playTurn);
+    setupForm.addEventListener("submit", Control.setupGame);
 
     function updateText(text) {
       textUpdate.textContent = text;
@@ -176,14 +185,18 @@
       gameOver.classList.add("show-board");
     }
 
+    function initGameDisplay() {
+      gameSetup.classList.add("display-none");
+      mainContainer.classList.remove("display-none");
+    }
+
     return {
       updateText,
       changeTurnText,
       disableButtons,
       showGameOver,
       changeSpaceText,
+      initGameDisplay,
     };
   })();
-
-  Control.setupGame();
 })();
