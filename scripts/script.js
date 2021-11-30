@@ -71,24 +71,26 @@
     }
 
     function isWinningMove() {
-      console.log("isWinningMove()");
       let win = false;
+      let playerSpaces = currentPlayer.getSpaces();
+      if (playerSpaces.length < 3) return win;
       //check if a winning combination has been acheived by the current player
       winningCombos.forEach(function (combo) {
         for (let num of combo) {
-          win = currentPlayer.getSpaces().includes(num);
+          win = playerSpaces.includes(num);
+          if (win) break;
         }
       });
       return win;
     }
 
     function endGame() {
-      console.log(`Game over! ${currentPlayer.getName()} wins!`);
       UI.disableButtons();
+      UI.showGameOver(currentPlayer.getName());
     }
 
     function playTurn(e) {
-      let choice = e.target.getAttribute("value");
+      let choice = parseInt(e.target.getAttribute("value"));
 
       if (isValid(choice)) {
         Board.updateBoard(choice);
@@ -150,11 +152,16 @@
       gameBoard.classList.add("disable-game-board");
     }
 
-    function revealGameOver() {
+    function showGameOver(playerName) {
+      winningPlayerText(playerName);
       gameOver.classList.add("show-board");
     }
 
-    return { updateText, changeTurnText, disableButtons };
+    function winningPlayerText(playerName) {
+      winningPlayer.textContent = playerName;
+    }
+
+    return { updateText, changeTurnText, disableButtons, showGameOver };
   })();
 
   Control.setupGame();
