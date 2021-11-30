@@ -1,6 +1,4 @@
 (() => {
-  console.log("Hello.");
-
   const Board = (function () {
     let spaces = [];
 
@@ -107,21 +105,23 @@
       UI.changeSpaceText(e.target, currentPlayer.getSign());
 
       if (isValid(choice)) {
-        // break this down
-        Board.updateBoard(choice);
-        currentPlayer.addSpace(choice);
-        UI.changeSpaceText(currentPlayer.getSign());
+        updateSpacesAndUI(choice);
         if (isWinningMove()) endGame();
-
         UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
         nextPlayer();
         TURNCOUNT++;
+
         if (TURNCOUNT >= MAXTURNS) endGame(true);
-        console.log(TURNCOUNT);
       }
 
       if (!isValid(choice))
         UI.updateText("Invalid move. Please choose another space.");
+    }
+
+    function updateSpacesAndUI(choice) {
+      Board.updateBoard(choice);
+      currentPlayer.addSpace(choice);
+      UI.changeSpaceText(currentPlayer.getSign());
     }
 
     return { setupGame, playTurn, endGame };
