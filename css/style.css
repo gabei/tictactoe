@@ -1,3 +1,20 @@
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
 .game-board {
   margin: 0 auto;
   width: 200px;
@@ -34,17 +51,35 @@
 
 .game-over {
   display: none;
+  padding: 2rem;
   background-color: gray;
   color: whitesmoke;
   width: 300px;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   align-items: center;
   justify-content: center;
+  font-size: 2rem;
 }
 
 .show-board {
   display: flex;
+}
+
+.ui-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 3rem;
+  border: 1px solid gray;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.turn-text {
+  font-size: 2.4rem;
 }

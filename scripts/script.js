@@ -94,11 +94,11 @@
       return win;
     }
 
-    function endGame(draw = false) {
+    function endGame(turns, draw = false) {
       UI.disableButtons();
       draw
-        ? UI.showGameOver("Nobody")
-        : UI.showGameOver(currentPlayer.getName());
+        ? UI.showGameOver("Nobody", turns)
+        : UI.showGameOver(currentPlayer.getName(), turns);
     }
 
     function playTurn(e) {
@@ -110,8 +110,8 @@
         UI.changeSpaceText(e.target, currentPlayer.getSign());
         UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
         TURNCOUNT++;
-        if (TURNCOUNT >= MAXTURNS) endGame(true);
-        if (isWinningMove()) endGame();
+        if (TURNCOUNT >= MAXTURNS) endGame(TURNCOUNT, true);
+        if (isWinningMove()) endGame(TURNCOUNT);
         nextPlayer();
       } else {
         UI.updateText("Invalid move. Please choose another space.");
@@ -171,13 +171,9 @@
       gameBoard.classList.add("disable-game-board");
     }
 
-    function showGameOver(playerName) {
-      winningPlayerText(playerName);
+    function showGameOver(playerName, turns) {
+      winningPlayer.textContent = `${playerName} wins after ${turns} turns!`;
       gameOver.classList.add("show-board");
-    }
-
-    function winningPlayerText(playerName) {
-      winningPlayer.textContent = playerName;
     }
 
     return {
