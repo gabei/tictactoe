@@ -94,11 +94,11 @@
       return win;
     }
 
-    function endGame(turns, draw = false) {
+    function endGame(turncount, draw = false) {
       UI.disableButtons();
       draw
-        ? UI.showGameOver("Nobody", turns)
-        : UI.showGameOver(currentPlayer.getName(), turns);
+        ? UI.showGameOver(turncount, "Nobody")
+        : UI.showGameOver(turncount, currentPlayer.getName());
     }
 
     function playTurn(e) {
@@ -171,8 +171,8 @@
       gameBoard.classList.add("disable-game-board");
     }
 
-    function showGameOver(playerName, turns) {
-      winningPlayer.textContent = `${playerName} wins after ${turns} turns!`;
+    function showGameOver(turncount, playerName) {
+      winningPlayer.textContent = `${playerName} wins on turn ${turncount}!`;
       gameOver.classList.add("show-board");
     }
 
