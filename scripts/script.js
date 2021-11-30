@@ -20,10 +20,11 @@
   })();
 
   const Control = (function () {
-    let isGameOver = false;
     let currentPlayer;
     let playerX;
     let playerO;
+    let TURNCOUNT = 0;
+    let MAXTURNS = 9;
 
     let winningCombos = [
       [1, 2, 3],
@@ -89,38 +90,38 @@
             break;
           }
         }
-
-        // for (let num of combo) {
-        //   win = playerSpaces.includes(num);
-        //   if (win) {
-        //     console.log(`${currentPlayer.getName()} spaces: ` + playerSpaces);
-        //     break;
-        //   }
-        // }
       });
 
       return win;
     }
 
-    function endGame() {
+    function endGame(draw = false) {
       UI.disableButtons();
-      UI.showGameOver(currentPlayer.getName());
+      draw
+        ? UI.showGameOver("Nobody")
+        : UI.showGameOver(currentPlayer.getName());
     }
 
     function playTurn(e) {
       let choice = parseInt(e.target.getAttribute("value"));
+      UI.changeSpaceText(e.target, currentPlayer.getSign());
 
       if (isValid(choice)) {
+        // break this down
         Board.updateBoard(choice);
         currentPlayer.addSpace(choice);
-        if (isWinningMove()) {
-          endGame();
-        }
+        UI.changeSpaceText(currentPlayer.getSign());
+        if (isWinningMove()) endGame();
+
         UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
         nextPlayer();
-      } else {
-        UI.updateText("Invalid move. Please choose another space.");
+        TURNCOUNT++;
+        if (TURNCOUNT >= MAXTURNS) endGame(true);
+        console.log(TURNCOUNT);
       }
+
+      if (!isValid(choice))
+        UI.updateText("Invalid move. Please choose another space.");
     }
 
     return { setupGame, playTurn, endGame };
@@ -165,6 +166,10 @@
       turnText.textContent = `${playerName}'s Turn`;
     }
 
+    function changeSpaceText(target, symbol) {
+      target.textContent = symbol;
+    }
+
     function disableButtons() {
       gameBoard.classList.add("disable-game-board");
     }
@@ -178,7 +183,13 @@
       winningPlayer.textContent = playerName;
     }
 
-    return { updateText, changeTurnText, disableButtons, showGameOver };
+    return {
+      updateText,
+      changeTurnText,
+      disableButtons,
+      showGameOver,
+      changeSpaceText,
+    };
   })();
 
   Control.setupGame();
