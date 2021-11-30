@@ -13,12 +13,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 2rem;
+  color: whitesmoke;
 }
 
 .square:hover {
   cursor: pointer;
   background-color: goldenrod;
   transition: 0.2s all;
+}
+
+.square-selected {
+  background-color: goldenrod;
+  font-weight: 800;
 }
 
 .disable-game-board {

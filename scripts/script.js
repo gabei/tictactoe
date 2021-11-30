@@ -167,7 +167,12 @@
     }
 
     function changeSpaceText(target, symbol) {
-      target.textContent = symbol;
+      console.log(target.tagName);
+      console.log(target.classList);
+      if (target.tagName === "DIV") {
+        target.classList.add("square-selected");
+        target.textContent = symbol;
+      }
     }
 
     function disableButtons() {
