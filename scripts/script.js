@@ -108,11 +108,11 @@
         Board.updateBoard(choice);
         currentPlayer.addSpace(choice);
         UI.changeSpaceText(e.target, currentPlayer.getSign());
-        if (isWinningMove()) endGame();
         UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
-        nextPlayer();
         TURNCOUNT++;
         if (TURNCOUNT >= MAXTURNS) endGame(true);
+        if (isWinningMove()) endGame();
+        nextPlayer();
       } else {
         UI.updateText("Invalid move. Please choose another space.");
       }
