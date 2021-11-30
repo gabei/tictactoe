@@ -36,7 +36,7 @@
     ];
 
     function getPlayerName(playerSign) {
-      let name = prompt(`What is player ${playerSign}'s name?'`); //testing like this <-----------
+      let name = prompt(`What is player ${playerSign}'s name?'`);
       return name;
     }
 
