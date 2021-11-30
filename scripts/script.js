@@ -74,13 +74,31 @@
       let win = false;
       let playerSpaces = currentPlayer.getSpaces();
       if (playerSpaces.length < 3) return win;
-      //check if a winning combination has been acheived by the current player
+
+      // does player have all nums of a winning combo
       winningCombos.forEach(function (combo) {
+        let comboCount = 0;
+
         for (let num of combo) {
-          win = playerSpaces.includes(num);
-          if (win) break;
+          if (playerSpaces.includes(num)) {
+            comboCount++;
+          }
+
+          if (comboCount === 3) {
+            win = true;
+            break;
+          }
         }
+
+        // for (let num of combo) {
+        //   win = playerSpaces.includes(num);
+        //   if (win) {
+        //     console.log(`${currentPlayer.getName()} spaces: ` + playerSpaces);
+        //     break;
+        //   }
+        // }
       });
+
       return win;
     }
 
@@ -137,7 +155,6 @@
     const gameBoard = document.querySelector(".game-board");
     const gameOver = document.querySelector(".game-over");
     const winningPlayer = document.querySelector(".winning-player");
-
     gameBoard.addEventListener("click", Control.playTurn);
 
     function updateText(text) {
