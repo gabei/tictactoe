@@ -35,11 +35,6 @@
       [7, 5, 3],
     ];
 
-    function getPlayerName(playerSign) {
-      let name = prompt(`What is player ${playerSign}'s name?'`);
-      return name;
-    }
-
     function addPlayers(xname, yname) {
       playerX = Player(xname, "x");
       playerO = Player(yname, "o");
@@ -58,7 +53,14 @@
 
     function startGame() {
       currentPlayer = playerX;
+      TURNCOUNT = 0;
       UI.changeTurnText(currentPlayer.getName());
+    }
+
+    function resetGame() {
+      UI.hideGameOver();
+      UI.initGameDisplay();
+      Board.clearBoard();
     }
 
     function isValid(choice) {
@@ -123,7 +125,7 @@
       }
     }
 
-    return { setupGame, playTurn, endGame };
+    return { setupGame, playTurn, endGame, resetGame };
   })();
 
   function Player(name, playerSign) {
@@ -158,8 +160,10 @@
     const mainContainer = document.querySelector(".main");
     const gameSetup = document.querySelector(".game-setup");
     const setupForm = document.querySelector(".game-setup__form");
+    const reset = document.querySelector(".reset");
     gameBoard.addEventListener("click", Control.playTurn);
     setupForm.addEventListener("submit", Control.setupGame);
+    reset.addEventListener("click", Control.resetGame);
 
     function updateText(text) {
       textUpdate.textContent = text;
@@ -180,14 +184,46 @@
       gameBoard.classList.add("disable-game-board");
     }
 
+    function enableButtons() {
+      gameBoard.classList.remove("disable-game-board");
+    }
+
     function showGameOver(turncount, playerName) {
       winningPlayer.textContent = `${playerName} wins on turn ${turncount}!`;
       gameOver.classList.add("show-board");
     }
 
+    function hideGameOver() {
+      gameOver.classList.remove("show-board");
+    }
+
     function initGameDisplay() {
-      gameSetup.classList.add("display-none");
-      mainContainer.classList.remove("display-none");
+      if (gameSetup.classList.contains("display-none")) {
+        gameSetup.classList.remove("display-none");
+      } else {
+        gameSetup.classList.add("display-none");
+      }
+
+      if (mainContainer.classList.contains("display-none")) {
+        mainContainer.classList.remove("display-none");
+      } else {
+        mainContainer.classList.add("display-none");
+      }
+      resetAllSquares();
+      enableButtons();
+      setupForm.reset();
+    }
+
+    function resetAllSquares() {
+      gameBoard.childNodes.forEach((square) => {
+        if (
+          square.tagName === "DIV" &&
+          square.classList.contains("square-selected")
+        ) {
+          square.classList.remove("square-selected");
+          square.textContent = square.getAttribute("value");
+        }
+      });
     }
 
     return {
@@ -197,6 +233,7 @@
       showGameOver,
       changeSpaceText,
       initGameDisplay,
+      hideGameOver,
     };
   })();
 })();
