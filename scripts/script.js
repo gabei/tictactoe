@@ -1,7 +1,7 @@
 (() => {
   /*__________________________________________________ */
-
   /* Control
+
   - Maintains the flow of the game's logic
   - Calls player and board methods to update their status
   - Harbors the functions that are attached to DOM elements in the UI
