@@ -63,19 +63,28 @@
 
     function playTurn(e) {
       let choice = parseInt(e.target.getAttribute("value"));
+      let square = e.target;
 
       if (isValid(choice)) {
-        Board.updateBoard(choice);
-        currentPlayer.addSpace(choice);
-        UI.changeSpaceText(e.target, currentPlayer.getSign());
-        UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
-        TURNCOUNT++;
-        if (TURNCOUNT >= MAXTURNS) endGame(TURNCOUNT, true);
-        if (isWinningMove()) endGame(TURNCOUNT);
+        updateGame(choice, square);
+        updateTurnCount();
         nextPlayer();
       } else {
         UI.updateText("Invalid move. Please choose another space.");
       }
+    }
+
+    function updateGame(choice, square) {
+      Board.updateBoard(choice);
+      currentPlayer.addSpace(choice);
+      UI.changeSpaceText(square, currentPlayer.getSign());
+      UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
+    }
+
+    function updateTurnCount() {
+      TURNCOUNT++;
+      if (TURNCOUNT >= MAXTURNS) endGame(TURNCOUNT, true);
+      if (isWinningMove()) endGame(TURNCOUNT);
     }
 
     function nextPlayer() {
