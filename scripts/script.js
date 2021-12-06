@@ -63,10 +63,10 @@
 
     function playTurn(e) {
       let choice = parseInt(e.target.getAttribute("value"));
-      let square = e.target;
+      let space = e.target;
 
       if (isValid(choice)) {
-        updateGame(choice, square);
+        updateGame(choice, space);
         updateTurnCount();
         nextPlayer();
       } else {
@@ -74,10 +74,10 @@
       }
     }
 
-    function updateGame(choice, square) {
+    function updateGame(choice, space) {
       Board.updateBoard(choice);
       currentPlayer.addSpace(choice);
-      UI.changeSpaceText(square, currentPlayer.getSign());
+      UI.changeSpaceText(space, currentPlayer.getSign());
       UI.updateText(`${currentPlayer.getName()} chose spot ${choice}.`);
     }
 
