@@ -97,7 +97,6 @@
 
     function isValid(choice) {
       let isAvailable = !Board.getSpaces().includes(choice);
-      console.log(isAvailable);
       return isAvailable;
     }
 
