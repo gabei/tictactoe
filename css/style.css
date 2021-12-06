@@ -94,3 +94,18 @@ body {
 .display-none {
   display: none;
 }
+
+.form-submit,
+.reset {
+  padding: 1rem;
+  background: royalblue;
+  border: none;
+  color: whitesmoke;
+  transition: 0.2s;
+}
+
+.form-submit:hover,
+.reset:hover {
+  cursor: pointer;
+  background: goldenrod;
+}
